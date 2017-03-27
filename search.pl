@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 
-my $geofileName = "geo_locations_good.txt";
-my $crimefileName = "crime_type_good.txt";
-my $statsfileName = "stat_type_good.txt";
+my $geofileName = "geo_locations.txt";
+my $crimefileName = "crime_type.txt";
+my $statsfileName = "stat_type.txt";
 my @geoLocations;
 my @crimesLocations;
 my @statsLocations;
