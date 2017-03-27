@@ -62,7 +62,7 @@ do {
         }
         else
         {
-          print "no match\n";
+          #print "no match\n";
         }
   }
 } while ($geoMatch == 0);
