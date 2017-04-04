@@ -1,5 +1,10 @@
 #!/usr/bin/perl
 
+#
+# Alistair's Province Data File (1-48.csv) generator
+# using Prof Stacey's parsing code
+#
+
 use strict;
 use warnings;
 use version;	our $VERSION = qv('5.16.0');
@@ -8,13 +13,13 @@ use Text::CSV	1.32;
 my $COMMA = q{,};
 
 my @records;
-my @col0;
-my @col1;
-my @col2;
-my @col3;
-my @col4;
-my @col5;
-my @col6;
+my @col0; # year
+my @col1; # loc
+my @col2; # violation type
+my @col3; # stat type
+my @col4; # version
+my @col5; # coordinate
+my @col6; # value
 my $record_count = -1;
 my $csv = Text::CSV->new({sep_char => $COMMA});
 
@@ -40,9 +45,18 @@ foreach my $file_record (@records) {
 
 print("Done read.\n");
 
+# Open a set of 48 output files
 my @output_fhs;
 for (my $i = 1; $i <= 48; $i++) {
     open $output_fhs[$i], '>', "province_data/$i.csv" or die "Unable to open $i.csv for writing.\n";
+}
+
+# For every record in the file, find what the geo code is (by finding the first # in the coordinate #.#.#)
+# and then print the record to the correct file 1-48.csv
+for(my $i = 0; $i < @records; $i++) {
+    my @coordinates = split(/\./, $col5[$i]);
+    my $specific_fh = $output_fhs[$coordinates[0]];
+    print $specific_fh $records[$i];
 }
 
 for (my $i = 1; $i <= 48; $i++) {
