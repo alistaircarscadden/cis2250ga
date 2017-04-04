@@ -11,7 +11,7 @@ my @records;
 my @year;
 my @location;
 my @violation;
-my @unique_stattype;
+my @unique_violation;
 my @stattype;
 my @coordinate;
 my $record_count = -1;
@@ -43,20 +43,20 @@ print("Done read.\n");
 
 open my $output_fh, '>', 'testoutput.csv' or die "";
 
-for (my $i = 0; $i < scalar(@stattype); $i++) {
+for (my $i = 0; $i < scalar(@violation); $i++) {
     my $unique = 1;
-    foreach my $uni_statt (@unique_stattype) {
-        if($stattype[$i] eq $uni_statt) {
+    foreach my $uni_viol (@unique_violation) {
+        if($violation[$i] eq $uni_viol) {
             $unique = 0;
         }
     }
     
     if ($unique == 1) {
-        print $coordinate[$i]." -> ";
+        print $coordinate[$i]."on line $i -> ";
         my @coordinates = split(/\./, $coordinate[$i]);
         print @coordinates."\n";
-        $unique_stattype[$#unique_stattype + 1] = $stattype[$i];
-        print $output_fh $coordinates[2].",\"".$stattype[$i]."\"\n";
+        $unique_violation[$#unique_violation + 1] = $violation[$i];
+        print $output_fh $coordinates[1].",\"".$violation[$i]."\"\n";
     }
 }
 
