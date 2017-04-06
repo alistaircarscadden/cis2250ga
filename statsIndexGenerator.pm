@@ -4,6 +4,7 @@ use Exporter;
 @ISA    = ('Exporter');
 @EXPORT = ('generateStatsIndex');
 
+use POSIX;
 use strict;
 use warnings;
 use version; our $VERSION = qv('5.16.0');
@@ -28,7 +29,14 @@ sub generateStatsIndex {
         $unique_stats[$i] = 'STATDOESNOTEXIST';
     }
     
+    print "Generating Stats Index\n";
+    print "0%                                                       100%\n";
+    
     for ( my $i = 0 ; $i < @records ; $i++ ) {
+        if($i % floor(scalar(@records) / 60) == 0) {
+            print '#';
+        }
+        
         my $unique = 1;
         
         # Check if the violation on current line is unique
@@ -43,6 +51,8 @@ sub generateStatsIndex {
             $unique_stats[ $coordinates[2] - 1 ] = $col3[$i];
         }
     }
+    
+    print "\n";
     
     open my $output_fh, '>', 'stats_index.csv' or die $!;
     for my $str (@unique_stats) {

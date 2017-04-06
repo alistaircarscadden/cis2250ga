@@ -4,6 +4,7 @@ use Exporter;
 @ISA = ('Exporter');
 @EXPORT = ('generateProvinceData');
 
+use POSIX;
 use strict;
 use warnings;
 use version;	our $VERSION = qv('5.16.0');
@@ -25,15 +26,23 @@ sub generateProvinceData {
     for (my $i = 1; $i <= 48; $i++) {
         open $output_fhs[$i], '>', "province_data/$i.csv" or die $!;
     }
-
+    
     # For every record in the file, find what the geo code is (by finding the first # in the coordinate #.#.#)
     # and then print the record to the correct file 1-48.csv
+    print "Generating Province Data\n";
+    print "0%                                                       100%\n";
+    
     for(my $i = 0; $i < @records; $i++) {
+        if($i % floor(scalar(@records) / 60) == 0) {
+            print '#';
+        }
         my @coordinates = split(/\./, $col5[$i]);
         my $specific_fh = $output_fhs[$coordinates[0]];
         my $record = $records[$i];
         print $specific_fh $record;
     }
+    
+    print "\n";
 
     for (my $i = 1; $i <= 48; $i++) {
         close $output_fhs[$i] or die $!;

@@ -44,7 +44,9 @@ my @unique_violations;
 my $record_count = -1;
 my $csv = Text::CSV->new( { sep_char => $COMMA } );
 
-print "Starting..";
+print "Starting read...\n";
+
+$| = 1;
 
 open my $file_fh, '<', $ARGV[0] or die $!;
 @records = <$file_fh>;
@@ -67,20 +69,20 @@ foreach my $file_record (@records) {
     }
 }
 
-print("... done read.\n");
+print("                ... done read.\n");
 
 generateProvinceData( \@records, \@col0, \@col1, \@col2, \@col3, \@col4, \@col5, \@col6 );
 
-print("... done writing province_data/1-48.csv.\n");
+print("... done writing province_data/1-48.csv.\n\n");
 
 generateCrimesIndex( \@records, \@col0, \@col1, \@col2, \@col3, \@col4, \@col5, \@col6 );
 
-print("... done writing crimes_index.csv.\n");
+print("... done writing crimes_index.csv.\n\n");
 
 generateStatsIndex( \@records, \@col0, \@col1, \@col2, \@col3, \@col4, \@col5, \@col6 );
 
-print("... done writing stats_index.csv.\n");
+print("... done writing stats_index.csv.\n\n");
 
 generateLocationsIndex( \@records, \@col0, \@col1, \@col2, \@col3, \@col4, \@col5, \@col6 );
 
-print("... done writing locations_index.csv.\n");
+print("... done writing locations_index.csv.\n\nDone.\n");
