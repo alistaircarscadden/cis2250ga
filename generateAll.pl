@@ -46,7 +46,7 @@ my $csv = Text::CSV->new( { sep_char => $COMMA } );
 
 print "Starting..";
 
-open my $file_fh, '<', "02520051-eng.csv" or die $!;
+open my $file_fh, '<', $ARGV[0] or die $!;
 @records = <$file_fh>;
 close $file_fh or die $!;
 
